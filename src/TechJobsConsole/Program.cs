@@ -41,7 +41,6 @@ namespace TechJobsConsole
                     else
                     {
                         List<string> results = JobData.FindAll(columnChoice);
-
                         Console.WriteLine("\n*** All " + columnChoices[columnChoice] + " Values ***");
                         foreach (string item in results)
                         {
@@ -63,7 +62,8 @@ namespace TechJobsConsole
                     // Fetch results
                     if (columnChoice.Equals("all"))
                     {
-                        Console.WriteLine("Search all fields not yet implemented.");
+                        searchResults = JobData.FindByValue(searchTerm);
+                        PrintJobs(searchResults);
                     }
                     else
                     {
@@ -84,6 +84,7 @@ namespace TechJobsConsole
             string[] choiceKeys = new string[choices.Count];
 
             int i = 0;
+            // looping thru the dictionary keys and making a separate array. e.g. choicesKeys=["search", "list"]
             foreach (KeyValuePair<string, string> choice in choices)
             {
                 choiceKeys[i] = choice.Key;
@@ -93,9 +94,9 @@ namespace TechJobsConsole
             do
             {
                 Console.WriteLine("\n" + choiceHeader + " by:");
-
+               
                 for (int j = 0; j < choiceKeys.Length; j++)
-                {
+                {   
                     Console.WriteLine(j + " - " + choices[choiceKeys[j]]);
                 }
 
@@ -113,12 +114,29 @@ namespace TechJobsConsole
 
             } while (!isValidChoice);
 
+            
             return choiceKeys[choiceIdx];
         }
 
         private static void PrintJobs(List<Dictionary<string, string>> someJobs)
         {
-            Console.WriteLine("printJobs is not implemented yet");
-        }
+            
+
+            for (int i = 0; i < someJobs.Count; i++)
+            {   
+                Dictionary<string, string> d1 = someJobs[i];
+                foreach (KeyValuePair<string, string> el in d1) 
+                {
+                    Console.WriteLine("{0} : {1}", el.Key, el.Value);
+                }
+                Console.WriteLine("*****");
+            }
+
+            if (someJobs.Count == 0)
+            {
+                Console.WriteLine(" No Jobs found matching the search criteria. ");
+            }
+            //Console.WriteLine("printJobs is not implemented yet" + someJobs[0].Values);
+                    }
     }
 }
